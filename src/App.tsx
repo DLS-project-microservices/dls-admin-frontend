@@ -1,39 +1,46 @@
+import React from 'react';
 import './App.css';
-import Navbar from './components/navbar/Navbar';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';import Products from './pages/products/Products';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Products from './pages/products/Products';
 import Orders from './pages/orders/Orders';
 import Users from './pages/users/Users';
 import Categories from './pages/categories/Categories';
-import { useState } from 'react';
 import SignIn from './pages/signIn/SignIn';
+import { useAuth } from './auth/AuthProvider';
+import Navbar from './components/navbar/Navbar';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-  const handleSignOut = () => {
-    setIsAuthenticated(false);
-  };
+  const { isAuthenticated } = useAuth();
 
   return (
-    <Router>
-      {isAuthenticated ? (
-        <div className='App'>
-          <div className='gradient__bg'>
-            <Navbar onSignOut={handleSignOut} />
-          </div>
-          <Routes>
-            <Route path="/products" element={<Products />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/categories" element={<Categories />} />
-          </Routes>
-        </div>
-      ) : (
-        <Routes>
-          <Route path="/signin" element={<SignIn />} />
-        </Routes>
-      )}
-    </Router>
+    <div>
+      {isAuthenticated && <Navbar />}
+      <Routes>
+        <Route path="/signin" element={<SignIn />} />
+        {isAuthenticated ? (
+          <Route
+            path="/*"
+            element={<ProtectedRoutes />}
+          />
+        ) : (
+          <Route path="*" element={<Navigate to="/signin"/>} />
+        )}
+      </Routes>
+    </div>
+  );
+};
+
+const ProtectedRoutes = () => {
+  return (
+    <div className='App'>
+      <div className='gradient__bg'></div>
+      <Routes>
+        <Route path="/products" element={<Products />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/categories" element={<Categories />} />
+      </Routes>
+    </div>
   );
 };
 

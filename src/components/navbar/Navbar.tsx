@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import { useAuth } from '../../auth/AuthProvider';
 
-interface NavbarProps {
-  onSignOut: () => void;
-}
 
-const Navbar = ({ onSignOut }: NavbarProps) => {
+
+const Navbar = () => {
   const [activePage, setActivePage] = useState('');
-
+  const { signOut } = useAuth();
   const handleSetActivePage = (page: string) => {
     setActivePage(page);
   };
@@ -54,7 +53,7 @@ const Navbar = ({ onSignOut }: NavbarProps) => {
           </Link>
         </li>
       </ul>
-      <button className='nav-btn' onClick={onSignOut}>
+      <button className='nav-btn' onClick={signOut}>
         <span className="nav-btn-text">Sign Out</span>
       </button>
     </nav>
