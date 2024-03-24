@@ -8,6 +8,7 @@ import Categories from './pages/categories/Categories';
 import SignIn from './pages/signIn/SignIn';
 import { useAuth } from './auth/AuthProvider';
 import Navbar from './components/navbar/Navbar';
+import Home from './pages/home/Home';
 
 const App = () => {
   const { isAuthenticated } = useAuth();
@@ -35,6 +36,7 @@ const ProtectedRoutes = () => {
     <div className='App'>
       <div className='gradient__bg'></div>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/users" element={<Users />} />
