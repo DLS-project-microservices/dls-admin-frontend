@@ -14,7 +14,7 @@ const SignIn = () => {
       signIn();
     } catch (error) {
       setError('Failed to sign in. Please check your credentials.');
-    }
+    }1
   };
 
   return (
