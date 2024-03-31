@@ -1,0 +1,21 @@
+{
+    "data": [
+        {
+            "name": "Technology",
+            "description": "Things like laptops, phones and stuff"
+        },
+        {
+            "name": "Clothing",
+            "description": "No description"
+        },
+        {
+            "name": "Sport",
+            "description": "Sporty stuff"
+        },
+        {
+            "name": "Furniture",
+            "description": "No description"
+        }
+
+    ]
+}
