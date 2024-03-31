@@ -7,6 +7,7 @@ const AddProduct = () => {
     const [quantity, setQuantity] = useState(0);
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
       const getCategories = async () => {
@@ -27,18 +28,41 @@ const AddProduct = () => {
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
 
+        if (selectedCategories.length === 0) {
+          return;
+        }
+
         const newProduct = {
             name,
             description,
             quantity,
             categories: selectedCategories,
         };
-
-        setName('');
-        setDescription('');
-        setQuantity(0);
-        setSelectedCategories([]);
+        
+        try {
+          const response = await fetch('http://localhost:8080/api/products', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newProduct)
+          });
+          
+          if (response.status === 201) {
+            setName('');
+            setDescription('');
+            setQuantity(0);
+            setSelectedCategories([]);
+          }
+        }
+        catch(error) {
+          console.log(error);
+        }
     };
+
+    useEffect(() => {
+      setIsFormValid(selectedCategories.length > 0);
+    }, [selectedCategories])
 
     return (
         <div>
@@ -78,7 +102,7 @@ const AddProduct = () => {
                     placeholder='Add category...'
                     hidePlaceholder={true}
                 />
-                <button type="submit">Create new product</button>
+                <button type="submit" disabled={!isFormValid}>Create new product</button>
             </form>
         </div>
     );
