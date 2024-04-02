@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 import './AddProducts.css';
 
 const AddProduct = () => {
@@ -20,6 +22,7 @@ const AddProduct = () => {
         }
         catch(error) {
           console.log(error);
+          toastr.error("Could not load categories. Please try again later.");
         }
       }
       getCategories();
@@ -49,11 +52,12 @@ const AddProduct = () => {
             body: JSON.stringify(newProduct)
           });
           
-          if (response.status === 201) {
+          if (response.status === 200) {
             setName('');
             setDescription('');
             setQuantity(0);
             setSelectedCategories([]);
+            toastr.success("Category was created successfully.");
           }
         }
         catch(error) {
@@ -62,8 +66,9 @@ const AddProduct = () => {
     };
 
     useEffect(() => {
-      setIsFormValid(selectedCategories.length > 0);
-    }, [selectedCategories])
+      setIsFormValid(
+        selectedCategories.length > 0 && name !== '');
+    }, [selectedCategories, name])
 
     return (
         <div className="page-container">
@@ -93,7 +98,13 @@ const AddProduct = () => {
                     <input className="input-field"
                         type="number"
                         value={quantity}
-                        onChange={(e) => setQuantity(parseInt(e.target.value))}
+                        onChange={(e) => {
+                          let quantityValue = parseInt(e.target.value);
+                          if (quantityValue < 0) {
+                            quantityValue = 0;
+                          }
+                          setQuantity(quantityValue);
+                        }}
                     />
                 </div>
                 <div className="form-section">
