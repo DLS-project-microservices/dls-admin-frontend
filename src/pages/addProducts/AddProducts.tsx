@@ -15,7 +15,7 @@ const AddProduct = () => {
     useEffect(() => {
       const getCategories = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/category');
+          const response = await fetch(`${process.env.REACT_APP_INVENTORY_ADMIN_URL}/category`);
           const data = await response.json();
           const categoryNames = data.map((category: any) => category.name);
           setCategories(categoryNames);
@@ -44,7 +44,7 @@ const AddProduct = () => {
         };
 
         try {
-          const response = await fetch('http://localhost:8080/api/products', {
+          const response = await fetch(`${process.env.REACT_APP_INVENTORY_ADMIN_URL}/products`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
