@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
+import './AddProducts.css';
 
 const AddProduct = () => {
     const [name, setName] = useState('');
@@ -12,9 +13,9 @@ const AddProduct = () => {
     useEffect(() => {
       const getCategories = async () => {
         try {
-          const response = await fetch('/test-data/categories/categories.json')
+          const response = await fetch('http://localhost:8080/api/category');
           const data = await response.json();
-          const categoryNames = data.data.map((category: any) => category.name);
+          const categoryNames = data.map((category: any) => category.name);
           setCategories(categoryNames);
         }
         catch(error) {
@@ -38,7 +39,7 @@ const AddProduct = () => {
             quantity,
             categories: selectedCategories,
         };
-        
+
         try {
           const response = await fetch('http://localhost:8080/api/products', {
             method: "POST",
@@ -65,45 +66,51 @@ const AddProduct = () => {
     }, [selectedCategories])
 
     return (
-        <div>
+        <div className="page-container">
+          <div className="form-container">
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className="form-header">
+                  <h1>Create new product</h1>
+                </div>
+                <div className="form-section">
                     <label>Name:</label>
-                    <input
+                    <input className="input-field"
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
                     />
                 </div>
-                <div>
+                <div className="form-section">
                     <label>Description:</label>
-                    <input
-                        type="text"
+                    <textarea className="input-field" rows={5} cols={50}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className="form-section">
                     <label>Quantity:</label>
-                    <input
+                    <input className="input-field"
                         type="number"
                         value={quantity}
                         onChange={(e) => setQuantity(parseInt(e.target.value))}
                     />
                 </div>
-                <Multiselect
-                    isObject={false}
-                    options={categories}
-                    selectedValues={selectedCategories}
-                    onSelect={(selectedList) => setSelectedCategories(selectedList)}
-                    onRemove={(selectedList) => setSelectedCategories(selectedList)}
-                    showCheckbox={true}
-                    placeholder='Add category...'
-                    hidePlaceholder={true}
-                />
-                <button type="submit" disabled={!isFormValid}>Create new product</button>
-            </form>
+                <div className="form-section">
+                  <Multiselect
+                      isObject={false}
+                      options={categories}
+                      selectedValues={selectedCategories}
+                      onSelect={(selectedList) => setSelectedCategories(selectedList)}
+                      onRemove={(selectedList) => setSelectedCategories(selectedList)}
+                      showCheckbox={true}
+                      placeholder='Add category...'
+                      hidePlaceholder={true}
+                  />
+                  <button className="add-product-btn" type="submit" disabled={!isFormValid}>Create new product</button>
+                </div>
+              </form>
+            </div>
         </div>
     );
 };
