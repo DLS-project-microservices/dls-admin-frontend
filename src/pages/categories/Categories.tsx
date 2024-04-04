@@ -2,12 +2,28 @@ import { useState, useEffect } from 'react';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import './Categories.css';
+import UpdateCategoryForm from '../../components/categories/UpdateCategoryForm';
 import { Category } from '../../types/categories';
-import { getCategories } from '../../services/categories';
+import { getCategories, updateCategory } from '../../services/categories';
 
 const Categories = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<Category>();
+
+  async function handleUpdateCategory(categoryToUpdate: Category) {
+    console.log(categoryToUpdate);
+    try {
+      await updateCategory(categoryToUpdate);
+      const updatedCategories = await getCategories();
+      setCategories(updatedCategories);
+      setSelectedCategory(categoryToUpdate);
+      toastr.success(`Category was updated successfully.`)
+    }
+    catch (error) {
+      toastr.error("Could not update category. Please try again later.")
+    }
+  }
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -27,12 +43,21 @@ const Categories = () => {
       <div className="categories-page-container">
         <div className="category-list">
           {categories.map(category => (
-            <div key={category.id}>{category.name}</div>
+            <div 
+            key={category.id}
+            onClick={() => setSelectedCategory(category)}
+            >
+            {category.name}
+            </div>
           ))}
         </div>
   
         <div>
-          test
+          {selectedCategory ? (
+            <UpdateCategoryForm category={selectedCategory} onSubmit={handleUpdateCategory}/>
+          ) : (
+            <div>Create category form here</div>
+          )}
         </div>
       </div>
     );
