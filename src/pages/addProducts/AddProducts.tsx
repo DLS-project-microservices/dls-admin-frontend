@@ -2,32 +2,32 @@ import { useState, useEffect } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
+import { Category } from '../../types/categories';
+import { getCategories } from '../../services/categories';
 import './AddProducts.css';
 
 const AddProduct = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [quantity, setQuantity] = useState(0);
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState<string[]>([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
-      const getCategories = async () => {
+      const fetchCategories = async () => {
         try {
-          const response = await fetch(`${process.env.REACT_APP_INVENTORY_ADMIN_URL}/category`);
-          const data = await response.json();
-          const categoryNames = data.map((category: any) => category.name);
-          setCategories(categoryNames);
+          const data = await getCategories();
+          const categoryNames = data.map((category: Category) => category.name);
+          setCategories(categoryNames);   
         }
-        catch(error) {
-          console.log(error);
-          toastr.error("Could not load categories. Please try again later.");
+        catch (error) {
+          toastr.error('Could not load categories. Please try again later.')
         }
-      }
-      getCategories();
-
-    }, []);
+        
+        }
+        fetchCategories();
+      }, []);
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
