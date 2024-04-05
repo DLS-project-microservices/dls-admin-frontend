@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./CategoryListItem.css";
 import { Category } from "../../../types/categories";
 
@@ -14,11 +14,8 @@ const CategoryListItem: React.FC<CategoryListItemProps> = ({
     onClick
 }) => {
 
-    const [ localSelected, setLocalSelected ] = useState<boolean>(isSelected)
-
     function handleClick() {
         onClick(category)
-        setLocalSelected(!localSelected);
     }
 
     return (
@@ -32,6 +29,9 @@ const CategoryListItem: React.FC<CategoryListItemProps> = ({
             <div>
                 {category.categoryDescription}
             </div>
+            <span className="material-symbols-outlined" onClick={() => alert('i got clicked')}>
+                delete
+            </span>
         </div>
     )
 }

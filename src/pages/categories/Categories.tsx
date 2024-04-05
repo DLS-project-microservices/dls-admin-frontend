@@ -47,6 +47,15 @@ const Categories = () => {
     }
   }
 
+  function handleGoBack() {
+    setSelectedCategory(undefined);
+  }
+
+  function handleCategoryClick(category: Category) {
+    setSelectedCategory(prevCategory => 
+      prevCategory === category ? null : category);
+  }
+
   async function fetchCategories(): Promise<Category[]> {
     let categories: Category[] = [];
     try {
@@ -67,17 +76,27 @@ const Categories = () => {
             key={category.name}
             category={category}
             isSelected={selectedCategory === category} 
-            onClick={setSelectedCategory}
+            onClick={handleCategoryClick}
             />
           ))}
         </div>
   
         <div className="selected-category-container">
+          <div className="go-back-button-container">
+            <button 
+            className="go-back-button"
+            onClick={handleGoBack} 
+            style={{ display: selectedCategory ? 'block' : 'none' }} 
+            >Go back
+            </button>
+          </div>
           {selectedCategory ? (
-            <UpdateCategoryForm 
-            category={selectedCategory} 
-            onSubmit={handleUpdateCategory}
-            />
+            <>
+              <UpdateCategoryForm 
+              category={selectedCategory} 
+              onSubmit={handleUpdateCategory}
+              />
+            </>
           ) : (
             <CreateCategoryForm onSubmit={handleCreateCategory} />
           )}
