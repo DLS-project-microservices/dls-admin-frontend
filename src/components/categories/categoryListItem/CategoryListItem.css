@@ -1,0 +1,12 @@
+.category-list-item-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px black solid;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+.selected-category-list-item {
+    color: red;
+}

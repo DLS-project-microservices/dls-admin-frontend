@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from 'react';
-import { Category } from "../../types/categories";
+import { Category } from "../../../types/categories";
 
 interface UpdateCategoryFormProps {
     category: Category

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import './Categories.css';
-import UpdateCategoryForm from '../../components/categories/UpdateCategoryForm';
+import UpdateCategoryForm from '../../components/categories/updateCategoryForm/UpdateCategoryForm';
+import CategoryListItem from '../../components/categories/categoryListItem/CategoryListItem';
 import { Category } from '../../types/categories';
 import { getCategories, updateCategory } from '../../services/categories';
 
@@ -17,7 +18,8 @@ const Categories = () => {
       await updateCategory(categoryToUpdate);
       const updatedCategories = await getCategories();
       setCategories(updatedCategories);
-      setSelectedCategory(categoryToUpdate);
+      
+      setSelectedCategory(updatedCategories.find(category => category.id === categoryToUpdate.id));
       toastr.success(`Category was updated successfully.`)
     }
     catch (error) {
@@ -43,12 +45,11 @@ const Categories = () => {
       <div className="categories-page-container">
         <div className="category-list-container">
           {categories.map(category => (
-            <div 
-            key={category.id}
-            onClick={() => setSelectedCategory(category)}
-            >
-            {category.name}
-            </div>
+            <CategoryListItem 
+            category={category}
+            isSelected={selectedCategory === category} 
+            onClick={setSelectedCategory}
+            />
           ))}
         </div>
   
