@@ -12,14 +12,19 @@ const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
 
-  async function handleCreateCategory(category: Category) {
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  async function handleCreateCategory(category: Category): Promise<boolean> {
     let categoryWasCreatedSuccessfully = false;
 
     try {
       const createdCategory = await createCategory(category);
       if (createdCategory) {
         categoryWasCreatedSuccessfully = true;
-        toastr.success('Category was created successfully.')  
+        toastr.success('Category was created successfully.')
+        await fetchCategories(); 
       }  
     }
     catch(error) {
@@ -28,12 +33,11 @@ const Categories = () => {
     return categoryWasCreatedSuccessfully;
   }
 
-  async function handleUpdateCategory(categoryToUpdate: Category) {
+  async function handleUpdateCategory(categoryToUpdate: Category): Promise<void> {
     console.log(categoryToUpdate);
     try {
       await updateCategory(categoryToUpdate);
-      const updatedCategories = await getCategories();
-      setCategories(updatedCategories);
+      const updatedCategories = await fetchCategories();
       
       setSelectedCategory(updatedCategories.find(category => category.id === categoryToUpdate.id));
       toastr.success(`Category was updated successfully.`)
@@ -43,20 +47,18 @@ const Categories = () => {
     }
   }
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await getCategories();
-        console.log(data);
-        setCategories(data);
-      }
-      catch(error) {
-        toastr.error('Could not load categories. Please try again later.');
-      }
-      }
-      fetchCategories();
-    }, []);
-  
+  async function fetchCategories(): Promise<Category[]> {
+    let categories: Category[] = [];
+    try {
+      categories = await getCategories();
+      setCategories(categories);
+    }
+    catch(error) {
+      toastr.error('Could not load categories. Please try again later.');
+    }
+    return categories;
+    }
+
     return (
       <div className="categories-page-container">
         <div className="category-list-container">
@@ -72,7 +74,10 @@ const Categories = () => {
   
         <div className="selected-category-container">
           {selectedCategory ? (
-            <UpdateCategoryForm category={selectedCategory} onSubmit={handleUpdateCategory}/>
+            <UpdateCategoryForm 
+            category={selectedCategory} 
+            onSubmit={handleUpdateCategory}
+            />
           ) : (
             <CreateCategoryForm onSubmit={handleCreateCategory} />
           )}

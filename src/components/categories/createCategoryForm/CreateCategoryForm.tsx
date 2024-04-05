@@ -16,7 +16,11 @@ async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     const categoryWasCreated = await onSubmit({
         name,
-        categoryDescription
+
+        /* if categoryDescription (the first operand) is "truthy" the object after "&& will be combined with the object containing "name" using the ...spread operator.
+        This is done to avoid sending an empty string.
+        */
+        ...(categoryDescription && { categoryDescription })
     })
     if (categoryWasCreated) {
         setName('');
