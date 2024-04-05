@@ -7,12 +7,12 @@ import { getCategories } from '../../services/categories';
 import './AddProducts.css';
 
 const AddProduct = () => {
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [quantity, setQuantity] = useState(0);
+    const [name, setName] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
+    const [quantity, setQuantity] = useState<number>(0);
     const [categories, setCategories] = useState<string[]>([]);
-    const [selectedCategories, setSelectedCategories] = useState([]);
-    const [isFormValid, setIsFormValid] = useState(false);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
     useEffect(() => {
       const fetchCategories = async () => {
@@ -57,7 +57,7 @@ const AddProduct = () => {
             setDescription('');
             setQuantity(0);
             setSelectedCategories([]);
-            toastr.success("Category was created successfully.");
+            toastr.success("Product was created successfully.");
           }
         }
         catch(error) {

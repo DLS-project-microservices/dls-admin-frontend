@@ -41,7 +41,7 @@ const Categories = () => {
   
     return (
       <div className="categories-page-container">
-        <div className="category-list">
+        <div className="category-list-container">
           {categories.map(category => (
             <div 
             key={category.id}
@@ -52,7 +52,7 @@ const Categories = () => {
           ))}
         </div>
   
-        <div>
+        <div className="selected-category-container">
           {selectedCategory ? (
             <UpdateCategoryForm category={selectedCategory} onSubmit={handleUpdateCategory}/>
           ) : (
