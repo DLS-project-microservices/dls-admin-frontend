@@ -6,15 +6,26 @@ import CreateCategoryForm from '../../components/categories/createCategoryForm/C
 import UpdateCategoryForm from '../../components/categories/updateCategoryForm/UpdateCategoryForm';
 import CategoryListItem from '../../components/categories/categoryListItem/CategoryListItem';
 import { Category } from '../../types/categories';
-import { getCategories, updateCategory } from '../../services/categories';
+import { getCategories, createCategory, updateCategory } from '../../services/categories';
 
 const Categories = () => {
-
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
 
   async function handleCreateCategory(category: Category) {
-    console.log(category);
+    let categoryWasCreatedSuccessfully = false;
+
+    try {
+      const createdCategory = await createCategory(category);
+      if (createdCategory) {
+        categoryWasCreatedSuccessfully = true;
+        toastr.success('Category was created successfully.')  
+      }  
+    }
+    catch(error) {
+      toastr.error('Could not create category. Please try again later.');
+    }
+    return categoryWasCreatedSuccessfully;
   }
 
   async function handleUpdateCategory(categoryToUpdate: Category) {
@@ -51,6 +62,7 @@ const Categories = () => {
         <div className="category-list-container">
           {categories.map(category => (
             <CategoryListItem 
+            key={category.name}
             category={category}
             isSelected={selectedCategory === category} 
             onClick={setSelectedCategory}

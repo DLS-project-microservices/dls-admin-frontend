@@ -35,17 +35,20 @@ useEffect(() => {
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit}>
-            <div className="form-section">
-                <label>Name:</label>
-                <input className="input-field"
-                        type="text"
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                        }}
-                    />
-            </div>
-            <div className="form-section">
+                <div className="form-header">
+                  <h1>Update category</h1>
+                </div>
+                <div className="form-section">
+                    <label>Name:</label>
+                    <input className="input-field"
+                            type="text"
+                            value={name}
+                            onChange={(e) => {
+                            setName(e.target.value);
+                            }}
+                        />
+                </div>
+                <div className="form-section">
                     <label>Description:</label>
                     <textarea className="input-field" rows={5} cols={50}
                         value={categoryDescription}

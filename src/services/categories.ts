@@ -7,6 +7,18 @@ async function getCategories(): Promise<Category[]> {
     return categories;
 }
 
+async function createCategory(category: Category) {
+    const response = await fetch(`${process.env.REACT_APP_INVENTORY_ADMIN_URL}/category`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(category)
+    });
+    const data = await response.json();
+    return data;
+}
+
 async function updateCategory(category: Category): Promise<Category> {
     const response = await fetch(`${process.env.REACT_APP_INVENTORY_ADMIN_URL}/category/${category.id}`, {
         method: "PUT",
@@ -22,5 +34,6 @@ async function updateCategory(category: Category): Promise<Category> {
     
 export {
     getCategories,
+    createCategory,
     updateCategory
 }
