@@ -2,35 +2,29 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import { Category } from "../../../types/categories";
 
-interface UpdateCategoryFormProps {
-    category: Category
+interface CreateCategoryFormProps {
     onSubmit: (category: Category) => void;
 }
 
-const UpdateCategoryForm: React.FC<UpdateCategoryFormProps> = ({ category, onSubmit }) => {
+const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({ onSubmit }) => {
 
-    const [name, setName] = useState<string>(category.name);
-    const [categoryDescription, setCategoryDescription] = useState<string | undefined>(category.categoryDescription);
-    const [isFormValid, setIsFormValid] = useState<boolean>(false);
+    const [name, setName] = useState('');
+    const [categoryDescription, setCategoryDescription] = useState('');
+    const [isFormValid, setIsFormValid] = useState(false);
 
 async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
-    onSubmit({ ...category, name, categoryDescription })
+    const testCat = {
+        name: "test",
+        categoryDescription: "test",
+    }
+    onSubmit(testCat)
 
 }
 
 useEffect(() => {
-    setName(category.name);
-    setCategoryDescription(category.categoryDescription);
-    setIsFormValid(false);
-}, [category])
-
-useEffect(() => {
-    setIsFormValid(
-        name !== category.name ||
-        categoryDescription !== category.categoryDescription
-        );
-}, [name, categoryDescription, category])
+    setIsFormValid(name !== '');
+}, [name])
 
     return (
         <div className="form-container">
@@ -53,10 +47,10 @@ useEffect(() => {
                     />
                 </div>
 
-            <button className="add-product-btn" type="submit" disabled={!isFormValid}>Update category</button>
+            <button className="add-product-btn" type="submit" disabled={!isFormValid}>Create category</button>
             </form>
         </div>
         )
 }
 
-export default UpdateCategoryForm;
+export default CreateCategoryForm;

@@ -5,7 +5,7 @@ import { Category } from "../../../types/categories";
 interface CategoryListItemProps {
     category: Category
     isSelected: boolean,
-    onClick: Function
+    onClick: (category: Category) => void;
 }
 
 const CategoryListItem: React.FC<CategoryListItemProps> = ({

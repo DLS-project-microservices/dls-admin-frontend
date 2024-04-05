@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import './Categories.css';
+import CreateCategoryForm from '../../components/categories/createCategoryForm/CreateCategoryForm';
 import UpdateCategoryForm from '../../components/categories/updateCategoryForm/UpdateCategoryForm';
 import CategoryListItem from '../../components/categories/categoryListItem/CategoryListItem';
 import { Category } from '../../types/categories';
@@ -11,6 +12,10 @@ const Categories = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
+
+  async function handleCreateCategory(category: Category) {
+    console.log(category);
+  }
 
   async function handleUpdateCategory(categoryToUpdate: Category) {
     console.log(categoryToUpdate);
@@ -57,7 +62,7 @@ const Categories = () => {
           {selectedCategory ? (
             <UpdateCategoryForm category={selectedCategory} onSubmit={handleUpdateCategory}/>
           ) : (
-            <div>Create category form here</div>
+            <CreateCategoryForm onSubmit={handleCreateCategory} />
           )}
         </div>
       </div>
