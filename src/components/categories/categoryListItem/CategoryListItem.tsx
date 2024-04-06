@@ -29,6 +29,9 @@ const CategoryListItem: React.FC<CategoryListItemProps> = ({
     function handleDeleteClick() {
         setConfirmDeletePopupIsOpen(true);
     }
+    function handleDeleteCloseClick() {
+        setConfirmDeletePopupIsOpen(false);
+    }
 
     function handleConfirmDeleteClick() {
         handleConfirmDelete(category.id);
@@ -41,26 +44,30 @@ const CategoryListItem: React.FC<CategoryListItemProps> = ({
             onClick={handleClick}
         >
             <div>
-                {category.name}
-            </div>
-            <div>
-                {category.categoryDescription}
+                <div>
+                    {category.name}
+                </div>
+                <div className="category-list-item-description">
+                    {category.categoryDescription}
+                </div>
             </div>
 
-            <span className="material-symbols-outlined" onClick={handleDeleteClick}>
+            <div className="delete-button-container">
+
+            <span className="material-symbols-outlined delete-icon" onClick={handleDeleteClick}>
                 delete
             </span>
+            </div>
 
             <Popup
                 contentStyle={{
                     width: "350px"}}
                 open={confirmDeletePopupIsOpen}
-                onClose={() => setConfirmDeletePopupIsOpen(false)}
+                onClose={handleDeleteCloseClick}
                 position="right center"
-                className="my-popup"
             >
                 <div className="popup-container">
-                    <div className="pop-text-container">
+                    <div className="popup-text-container">
                         Are you sure you want to delete the category '<strong>{category.name}</strong>'?
                         <br />
                         If not, click outside the box to cancel deletion.

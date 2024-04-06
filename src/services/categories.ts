@@ -31,9 +31,17 @@ async function updateCategory(category: Category): Promise<Category> {
     const updatedCategory = await response.json();
     return updatedCategory;
 }
+
+async function deleteCategory(categoryId: number | undefined): Promise<boolean> {
+    const response = await fetch(`${process.env.REACT_APP_INVENTORY_ADMIN_URL}/category/${categoryId}`, {
+        method: "DELETE",
+    });
+    return response.ok ? true : false;
+}
     
 export {
     getCategories,
     createCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory
 }

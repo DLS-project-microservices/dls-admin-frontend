@@ -6,7 +6,11 @@ import CreateCategoryForm from '../../components/categories/createCategoryForm/C
 import UpdateCategoryForm from '../../components/categories/updateCategoryForm/UpdateCategoryForm';
 import CategoryListItem from '../../components/categories/categoryListItem/CategoryListItem';
 import { Category } from '../../types/categories';
-import { getCategories, createCategory, updateCategory } from '../../services/categories';
+import {
+  getCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory } from '../../services/categories';
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -48,7 +52,19 @@ const Categories = () => {
   }
 
   async function handleDeleteCategory(categoryId: number | undefined): Promise<void> {
-    console.log(categoryId);
+    try {
+      const categoryWasDeleted = await deleteCategory(categoryId);
+      if (categoryWasDeleted) {
+        toastr.success('Category was deleted successfully.')
+        await fetchCategories();
+        if (selectedCategory?.id === categoryId) {
+          setSelectedCategory(undefined);
+        }
+      }
+    }
+    catch(error) {
+      toastr.error('Could not delete category. Please try again later.')
+    }
   }
 
   function handleGoBack() {
