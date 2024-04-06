@@ -1,4 +1,3 @@
-import { json } from "stream/consumers";
 import { Category } from "../types/categories";
 
 async function getCategories(): Promise<Category[]> {

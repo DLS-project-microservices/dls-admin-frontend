@@ -118,7 +118,9 @@ const AddProduct = () => {
                       placeholder='Add category...'
                       hidePlaceholder={true}
                   />
-                  <button className="add-product-btn" type="submit" disabled={!isFormValid}>Create new product</button>
+                  <div className="form-btn-container">
+                    <button className="add-item-btn" type="submit" disabled={!isFormValid}>Create new product</button>
+                  </div>
                 </div>
               </form>
             </div>

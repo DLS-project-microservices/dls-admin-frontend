@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import { Category } from "../../../types/categories";
+import "./UpdateCategoryForm.css"
 
 interface UpdateCategoryFormProps {
     category: Category
@@ -56,7 +57,9 @@ useEffect(() => {
                     />
                 </div>
 
-            <button className="add-product-btn" type="submit" disabled={!isFormValid}>Update category</button>
+            <div className="form-btn-container">
+                <button className="add-item-btn update-category-btn" type="submit" disabled={!isFormValid}>Update category</button>
+            </div>
             </form>
         </div>
         )

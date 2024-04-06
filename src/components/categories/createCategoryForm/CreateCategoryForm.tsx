@@ -55,8 +55,9 @@ useEffect(() => {
                         onChange={(e) => setCategoryDescription(e.target.value)}
                         />
                 </div>
-
-            <button className="add-product-btn" type="submit" disabled={!isFormValid}>Create category</button>
+            <div className="form-btn-container">
+                <button className="add-item-btn" type="submit" disabled={!isFormValid}>Create category</button>
+            </div>
             </form>
         </div>
         )
