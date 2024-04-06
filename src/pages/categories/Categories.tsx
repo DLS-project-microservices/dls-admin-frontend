@@ -47,6 +47,10 @@ const Categories = () => {
     }
   }
 
+  async function handleDeleteCategory(categoryId: number | undefined): Promise<void> {
+    console.log(categoryId);
+  }
+
   function handleGoBack() {
     setSelectedCategory(undefined);
   }
@@ -77,6 +81,7 @@ const Categories = () => {
             category={category}
             isSelected={selectedCategory === category} 
             onClick={handleCategoryClick}
+            handleConfirmDelete={handleDeleteCategory}
             />
           ))}
         </div>

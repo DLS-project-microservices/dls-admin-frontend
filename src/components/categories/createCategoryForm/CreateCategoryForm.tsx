@@ -36,7 +36,7 @@ useEffect(() => {
         <div className="form-container">
             <form onSubmit={handleSubmit}>
                 <div className="form-header">
-                    <h1>Create new product</h1>
+                    <h1>Create new category</h1>
                 </div>
                 <div className="form-section">
                     <label>Name:</label>
