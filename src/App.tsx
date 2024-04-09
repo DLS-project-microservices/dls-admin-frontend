@@ -12,6 +12,7 @@ import Home from './pages/home/Home';
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
 const App = () => {
 
+
   return (
     <div>
       <Routes>
@@ -26,6 +27,8 @@ const App = () => {
     </div>
   );
 };
+
+
 
 const ProtectedRoutes = () => {
   return (
