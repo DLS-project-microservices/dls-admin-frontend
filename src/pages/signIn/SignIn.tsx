@@ -23,21 +23,21 @@ const SignIn = () => {
         auth: {
           token: response.data.token,
           type: "bearer",
-        },
+       },
         userState: {
           firstName: response.data.firstName,
           lastName: response.data.lastName,
           email: response.data.email,
           useType: response.data.userType,
           userRole: response.data.role
-      }
+        }
       });
       navigate('/');
-    } catch (error) {
-      setError('Failed to sign in. Please check your credentials.');
+    } catch (error: any) {
+      setError(error.response.data.error || 'Failed to sign in. Please check your credentials.');
     }
   };
-
+  
   return (
     <div className="sign-in-container">
       <div className="sign-in-form">
