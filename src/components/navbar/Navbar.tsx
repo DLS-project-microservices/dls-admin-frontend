@@ -1,15 +1,21 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import { useAuth } from '../../auth/AuthProvider';
-
-
+import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [activePage, setActivePage] = useState('');
-  const { signOut } = useAuth();
+  const navigate = useNavigate();
+  const signOut = useSignOut()  
   const handleSetActivePage = (page: string) => {
     setActivePage(page);
+  };
+
+
+  const onClickedsignOut = async () => {
+    signOut()
+    navigate('/signin');  
   };
 
   return (
@@ -53,7 +59,7 @@ const Navbar = () => {
           </Link>
         </li>
       </ul>
-      <button className='nav-btn' onClick={signOut}>
+      <button className='nav-btn' onClick={onClickedsignOut}>
         <span className="nav-btn-text">Sign Out</span>
       </button>
     </nav>
