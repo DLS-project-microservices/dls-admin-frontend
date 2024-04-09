@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Products from './pages/products/Products';
+import AddProduct from './pages/addProducts/AddProducts';
 import Orders from './pages/orders/Orders';
 import Users from './pages/users/Users';
 import Categories from './pages/categories/Categories';
@@ -37,6 +38,7 @@ const ProtectedRoutes = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/products/add-product" element={<AddProduct />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/users" element={<Users />} />
         <Route path="/categories" element={<Categories />} />
