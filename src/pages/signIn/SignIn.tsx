@@ -1,17 +1,38 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../auth/AuthProvider';
 import './SignIn.css';
+import axios from 'axios';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
-  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const signIn = useSignIn()
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      signIn();
+      const response = await axios.post("http://localhost:9000/api/users/signin", {
+        email: email,
+        password: password,
+        frontendUserType: "admin"
+      });
+      signIn({
+        auth: {
+          token: response.data.token,
+          type: "bearer",
+        },
+        userState: {
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
+          email: response.data.email,
+          useType: response.data.userType,
+          userRole: response.data.role
+      }
+      });
+      navigate('/');
     } catch (error) {
       setError('Failed to sign in. Please check your credentials.');
     }
