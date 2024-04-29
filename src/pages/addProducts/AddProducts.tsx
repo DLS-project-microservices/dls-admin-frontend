@@ -10,16 +10,15 @@ const AddProduct = () => {
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(0);
-    const [categories, setCategories] = useState<string[]>([]);
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
     useEffect(() => {
       const fetchCategories = async () => {
         try {
           const data = await getCategories();
-          const categoryNames = data.map((category: Category) => category.name);
-          setCategories(categoryNames);   
+          setCategories(data);   
         }
         catch (error) {
           toastr.error('Could not load categories. Please try again later.')
@@ -40,7 +39,7 @@ const AddProduct = () => {
             name,
             description,
             quantity,
-            categories: selectedCategories,
+            categories: selectedCategories.map((category) => category.id),
         };
 
         try {
@@ -109,13 +108,13 @@ const AddProduct = () => {
                 </div>
                 <div className="form-section">
                   <Multiselect
-                      isObject={false}
                       options={categories}
                       selectedValues={selectedCategories}
                       onSelect={(selectedList) => setSelectedCategories(selectedList)}
                       onRemove={(selectedList) => setSelectedCategories(selectedList)}
                       showCheckbox={true}
                       placeholder='Add category...'
+                      displayValue='name'
                       hidePlaceholder={true}
                   />
                   <div className="form-btn-container">
