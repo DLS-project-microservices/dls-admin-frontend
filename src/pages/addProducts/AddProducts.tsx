@@ -10,6 +10,7 @@ const AddProduct = () => {
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(0);
+    const [price, setPrice] = useState<number>(0);
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -38,10 +39,14 @@ const AddProduct = () => {
         const newProduct = {
             name,
             description,
+            price,
             quantity,
             categories: selectedCategories.map((category) => category.id),
         };
+        
 
+
+      
         try {
           const response = await fetch(`${process.env.REACT_APP_INVENTORY_ADMIN_URL}/products`, {
             method: "POST",
@@ -56,6 +61,7 @@ const AddProduct = () => {
             setDescription('');
             setQuantity(0);
             setSelectedCategories([]);
+            setPrice(0);
             toastr.success("Product was created successfully.");
           }
         }
@@ -66,8 +72,8 @@ const AddProduct = () => {
 
     useEffect(() => {
       setIsFormValid(
-        selectedCategories.length > 0 && name !== '');
-    }, [selectedCategories, name])
+        selectedCategories.length > 0 && name !== '' && price > 0);
+    }, [selectedCategories, name, price])
 
     return (
         <div className="page-container">
@@ -90,6 +96,20 @@ const AddProduct = () => {
                     <textarea className="input-field" rows={5} cols={50}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
+                    />
+                </div>
+                <div className="form-section">
+                    <label>Price:</label>
+                    <input className="input-field"
+                        type="number"
+                        value={price}
+                        onChange={(e) => {
+                          let priceValue = parseInt(e.target.value);
+                          if (priceValue < 0) {
+                            priceValue = 0;
+                          }
+                          setPrice(priceValue);
+                        }}
                     />
                 </div>
                 <div className="form-section">
