@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 import toastr from 'toastr';
+import { useNavigate } from 'react-router-dom';
 import 'toastr/build/toastr.css';
 import { Category } from '../../types/categories';
 import { getCategories } from '../../services/categories';
@@ -14,6 +15,7 @@ const AddProduct = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
       const fetchCategories = async () => {
@@ -63,6 +65,8 @@ const AddProduct = () => {
             setSelectedCategories([]);
             setPrice(0);
             toastr.success("Product was created successfully.");
+            navigate('/products');
+            
           }
         }
         catch(error) {

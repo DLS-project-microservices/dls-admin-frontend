@@ -10,6 +10,7 @@ import SignIn from './pages/signIn/SignIn';
 import Navbar from './components/navbar/Navbar';
 import Home from './pages/home/Home';
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
+import EditProduct from './pages/editProducts/EditProducts';
 const App = () => {
 
 
@@ -42,6 +43,7 @@ const ProtectedRoutes = () => {
         <Route path="/orders" element={<Orders />} />
         <Route path="/users" element={<Users />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/products/edit-product/:id" element={<EditProduct />} />
       </Routes>
     </div>
   );
