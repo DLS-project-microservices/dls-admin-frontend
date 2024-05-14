@@ -14,7 +14,7 @@ const SignIn = () => {
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/users/signin", {
+      const response = await axios.post(`${process.env.REACT_APP_AUTH_URL}/users/signin`, {
         email: email,
         password: password,
         frontendUserType: "admin"
